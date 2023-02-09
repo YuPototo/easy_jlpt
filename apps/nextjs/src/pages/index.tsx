@@ -1,7 +1,10 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 
+import { api } from "~/utils/api";
+
 const Home: NextPage = () => {
+  const bookQuery = api.book.all.useQuery();
 
   return (
     <>
@@ -11,14 +14,15 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="flex h-screen flex-col items-center">
-        <div>
-            This is home page
-        </div>
-
+        <div>This is home page</div>
+        {bookQuery.data ? (
+          bookQuery.data.map((book) => <div key={book.id}>{book.title}</div>)
+        ) : (
+          <div>loading...</div>
+        )}
       </main>
     </>
   );
 };
 
 export default Home;
-

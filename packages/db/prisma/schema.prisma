@@ -10,6 +10,7 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
+// todo: remove post and example
 model Post {
     id      String @id @default(cuid())
     title   String
@@ -62,4 +63,13 @@ model VerificationToken {
     expires    DateTime
 
     @@unique([identifier, token])
+}
+
+
+// Book
+model Book {
+    id          String  @id @default(cuid())
+    title       String
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
 }
