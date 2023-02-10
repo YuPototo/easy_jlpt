@@ -21,11 +21,14 @@
     "@trpc/next": "^10.9.0",
     "@trpc/react-query": "^10.9.0",
     "@trpc/server": "^10.9.0",
+    "formik": "^2.2.9",
     "next": "^13.1.6",
     "next-auth": "^4.19.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "zod": "^3.20.2"
+    "react-hot-toast": "^2.4.0",
+    "zod": "^3.20.2",
+    "zod-formik-adapter": "^1.2.0"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
