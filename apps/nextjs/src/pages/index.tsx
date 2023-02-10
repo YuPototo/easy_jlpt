@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 
 import { api } from "~/utils/api";
 
@@ -16,7 +17,13 @@ const Home: NextPage = () => {
       <main className="flex h-screen flex-col items-center">
         <div>This is home page</div>
         {bookQuery.data ? (
-          bookQuery.data.map((book) => <div key={book.id}>{book.title}</div>)
+          bookQuery.data.map((book) => (
+            <div key={book.id}>
+              <Link href={`/book/${encodeURIComponent(book.uniqueTitle)}`}>
+                {book.title}
+              </Link>
+            </div>
+          ))
         ) : (
           <div>loading...</div>
         )}
