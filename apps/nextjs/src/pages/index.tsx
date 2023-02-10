@@ -1,11 +1,33 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Link from "next/link";
+import { createProxySSGHelpers } from "@trpc/react-query/ssg";
+import superjson from "superjson";
+import { appRouter, createInnerTRPCContext } from "@acme/api";
 
 import { api } from "~/utils/api";
 
+export async function getStaticProps() {
+  const ssg = createProxySSGHelpers({
+    router: appRouter,
+    ctx: createInnerTRPCContext({ session: null }),
+    transformer: superjson, // optional - adds superjson serialization
+  });
+
+  await ssg.book.all.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+    // regenerate every 30 minutes
+    revalidate: 60 * 30,
+  };
+}
+
 const Home: NextPage = () => {
-  const bookQuery = api.book.all.useQuery();
+  // This query will be immediately available as it's prefetched.
+  const { data: books } = api.book.all.useQuery();
 
   return (
     <>
@@ -16,8 +38,8 @@ const Home: NextPage = () => {
       </Head>
       <main className="flex h-screen flex-col items-center">
         <div>This is home page</div>
-        {bookQuery.data ? (
-          bookQuery.data.map((book) => (
+        {books ? (
+          books.map((book) => (
             <div key={book.id}>
               <Link href={`/book/${encodeURIComponent(book.uniqueTitle)}`}>
                 {book.title}
