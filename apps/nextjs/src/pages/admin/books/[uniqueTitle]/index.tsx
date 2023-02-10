@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { api } from "~/utils/api";
@@ -30,6 +31,15 @@ const Book: NextPage = () => {
                   <h2>{section.title}</h2>
                 </div>
               ))}
+            </div>
+
+            <div>
+              <Link
+                className="p-2 bg-green-300"
+                href={`/admin/books/${uniqueTitle}/sections/add`}
+              >
+                添加一个 Section
+              </Link>
             </div>
           </div>
         ) : (

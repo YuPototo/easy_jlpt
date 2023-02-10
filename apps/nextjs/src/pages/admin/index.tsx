@@ -15,7 +15,7 @@ const AdminPage: NextPage = () => {
           books.map((book) => (
             <div key={book.id}>
               <Link
-                href={`/admin/book/${encodeURIComponent(book.uniqueTitle)}`}
+                href={`/admin/books/${encodeURIComponent(book.uniqueTitle)}`}
               >
                 {book.title}
               </Link>
@@ -26,7 +26,7 @@ const AdminPage: NextPage = () => {
         )}
 
         <div>
-          <Link className="p-2 bg-red-100" href="/admin/addBook">
+          <Link className="p-2 bg-red-100" href="/admin/books/add">
             Add Book
           </Link>
         </div>

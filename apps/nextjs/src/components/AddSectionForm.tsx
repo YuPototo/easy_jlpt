@@ -5,17 +5,16 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 
 import { api } from "~/utils/api";
 
-const BookSchema = z.object({
+const SectionSchema = z.object({
   title: z.string().min(1).max(30),
 });
 
-const AddBookForm: React.FC<{ onSuccess: (uniqueTitle: string) => void }> = ({
+const AddSectionForm: React.FC<{ bookId: string; onSuccess: () => void }> = ({
+  bookId,
   onSuccess,
 }) => {
-  const addBook = api.book.add.useMutation({
-    onSuccess: ({ uniqueTitle }) => {
-      onSuccess(uniqueTitle);
-    },
+  const addSection = api.section.add.useMutation({
+    onSuccess,
     onError: (err) => {
       toast.error(err.message);
     },
@@ -24,13 +23,13 @@ const AddBookForm: React.FC<{ onSuccess: (uniqueTitle: string) => void }> = ({
   return (
     <Formik
       initialValues={{ title: "" }}
-      validationSchema={toFormikValidationSchema(BookSchema)}
+      validationSchema={toFormikValidationSchema(SectionSchema)}
       onSubmit={(values, actions) => {
-        addBook.mutate(
+        addSection.mutate(
           {
+            bookId,
             title: values.title,
           },
-
           {
             onError: () => {
               // Maybe there is a better way to set isSubmitting to false when error is returned
@@ -79,7 +78,7 @@ const AddBookForm: React.FC<{ onSuccess: (uniqueTitle: string) => void }> = ({
               type="submit"
               disabled={isSubmitting}
             >
-              Submit
+              添加 Section
             </button>
           </div>
         </Form>
@@ -88,4 +87,4 @@ const AddBookForm: React.FC<{ onSuccess: (uniqueTitle: string) => void }> = ({
   );
 };
 
-export default AddBookForm;
+export default AddSectionForm;
