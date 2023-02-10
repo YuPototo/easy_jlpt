@@ -52,19 +52,32 @@ const Book: NextPage = () => {
   const uniqueTitle = query.uniqueTitle as string;
 
   // This query will be immediately available as it's prefetched.
-  const { data } = api.book.byUniqueTitle.useQuery(uniqueTitle);
+  const { data: book } = api.book.byUniqueTitle.useQuery(uniqueTitle);
+
+  // get sections
+  const { data: sections } = api.section.byBookId.useQuery(book?.id as string, {
+    enabled: !!book,
+  });
 
   // get param
   return (
     <>
       <main className="flex h-screen flex-col items-center">
-        {data ? (
+        {book ? (
           <div>
-            <h1>{data.title}</h1>
-            <div>{data.createdAt.toString()}</div>
+            <h1>{book.title}</h1>
+            <div>{book.createdAt.toString()}</div>
+
+            <div>
+              {sections?.map((section) => (
+                <div key={section.id}>
+                  <h2>{section.title}</h2>
+                </div>
+              ))}
+            </div>
           </div>
         ) : (
-          <></>
+          <div>Not exists</div>
         )}
       </main>
     </>
