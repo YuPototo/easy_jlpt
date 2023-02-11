@@ -30,21 +30,21 @@ export async function getStaticProps(
   };
 }
 
-// export const getStaticPaths: GetStaticPaths = async () => {
-//   const books = await prisma.book.findMany({
-//     select: {
-//       uniqueTitle: true,
-//     },
-//   });
-//   return {
-//     paths: books.map((book) => ({
-//       params: {
-//         uniqueTitle: book.uniqueTitle,
-//       },
-//     })),
-//     fallback: "blocking",
-//   };
-// };
+export const getStaticPaths: GetStaticPaths = async () => {
+  const books = await prisma.book.findMany({
+    select: {
+      uniqueTitle: true,
+    },
+  });
+  return {
+    paths: books.map((book) => ({
+      params: {
+        uniqueTitle: book.uniqueTitle,
+      },
+    })),
+    fallback: "blocking",
+  };
+};
 
 const Book: NextPage = () => {
   const router = useRouter();
