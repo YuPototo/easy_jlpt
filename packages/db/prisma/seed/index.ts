@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 
 async function main() {
   await addBooks();
-  await addSections();
+  //   await addSections();
 }
 
 async function addBooks() {
@@ -31,12 +31,12 @@ async function addBooks() {
   });
 }
 
-async function addSections() {
-  const books = await prisma.book.findMany();
-  for (const book of books) {
-    await addSectionByBook(book.id);
-  }
-}
+// async function addSections() {
+//   const books = await prisma.book.findMany();
+//   for (const book of books) {
+//     await addSectionByBook(book.id);
+//   }
+// }
 
 async function addSectionByBook(bookId: string) {
   await prisma.section.createMany({
